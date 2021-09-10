@@ -5,7 +5,7 @@
 \title{
 \packageTitle{Sshaped}}
 \description{
-Estimation of an S-shaped function and its corresponding inflection point via a least squares approach. A sequential mixed primal-dual bases algorithm is implemented for the fast computation of the estimator. The same algorithm can also be used to solve other shape-restricted regression problems, such as convex regression. For more details, see the PhD thesis of Feng (2021).
+Estimation of an S-shaped function and its corresponding inflection point via a least squares approach. A sequential mixed primal-dual bases algorithm is implemented for the fast computation of the estimator. The same algorithm can also be used to solve other shape-restricted regression problems, such as convex regression. For more details, see Feng et al. (2021).
 }
 \details{
 Consider the nonparametric estimation of an S-shaped regression function. The least squares
@@ -15,7 +15,7 @@ In the current version of the package, we use this algorithm to implement the le
 }
 
 \references{
-Feng, O. Y. (2021). Topics in shape-constrained inference. PhD thesis, University of Cambridge. Available at \url{https://www.dpmms.cam.ac.uk/~oyf20/Thesis-oyf20-final.pdf}.
+Feng, O. Y., Chen, Y., Han, Q., Carroll, R. J. and Samworth, R. J. (2021). Nonparametric, tuning-free estimation of S-shaped functions. arXiv preprint. Available at \url{https://arxiv.org/pdf/2107.07257.pdf}.
 }
 
 \author{
