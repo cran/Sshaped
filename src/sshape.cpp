@@ -3,8 +3,7 @@ This is the C++ file to be compiled and loaded by Rcpp (in R/RStudio).
 To use it, typically no modification is required. 
 */
 
-/* # include <Rcpp.h>
- */
+
 # include <RcppArmadillo.h>
 
 // [[Rcpp::depends(RcppArmadillo)]]
@@ -335,10 +334,15 @@ List sshapedreg(NumericVector x, NumericVector y) {
     NumericVector yy_l = y[Range(0,i)];
     previnfo_l = nextinfo(previnfo_l, xx_l, yy_l);
     NumericVector newknot_l = previnfo_l[0];
+    NumericVector newcoeff_l = previnfo_l[1];
     NumericVector newfitted_l = previnfo_l[2];
     rss_l[i] = sum((newfitted_l-yy_l)*(newfitted_l-yy_l));
     f_l_inflection[i]=newfitted_l[i];
-    df_l_inflection[i]=sum(coeff_l) - coeff_l[0];
+    df_l_inflection[i]=sum(newcoeff_l) - newcoeff_l[0];
+    // below is the alternative for calculating df_l_inflection[i], same results
+    // the only potential downside for the method below is that one needs to 
+    // make sure that the x-s are not too close.
+    // df_l_inflection[i] =   (newfitted_l[i] - newfitted_l[i-1])/(xx_l[i]-xx_l[i-1]);
     knot_all_l.push_back(newknot_l);
   }
   
@@ -351,10 +355,11 @@ List sshapedreg(NumericVector x, NumericVector y) {
     NumericVector yy_r = yrev[Range(0,i)];
     previnfo_r = nextinfo(previnfo_r, xx_r, yy_r);
     NumericVector newknot_r = previnfo_r[0];
+    NumericVector newcoeff_r = previnfo_r[1];
     NumericVector newfitted_r = previnfo_r[2];
     rss_r[i] = sum((newfitted_r-yy_r)*(newfitted_r-yy_r));
     f_r_inflection[i]=newfitted_r[i];
-    df_r_inflection[i] = sum(coeff_r) - coeff_r[0];
+    df_r_inflection[i] = sum(newcoeff_r) - newcoeff_r[0];
     knot_all_r.push_back(newknot_r);
   }
   
@@ -363,9 +368,13 @@ List sshapedreg(NumericVector x, NumericVector y) {
   // here in the algorithm inflection points belongs to the right subinterval
   // i.e. [0,...,inflex_index-1] [inflex_index,...,n-1]
   for(i = 1; i < n; i++){
+    
     if(x[i]-x[i-1] > 1e-7){
       double slope_mid = (-f_r_inflection[n-1-i] - f_l_inflection[i-1])/(x[i]-x[i-1]);
-      if ((df_l_inflection[i-1] <= slope_mid) && (df_r_inflection[n-1-i] <= slope_mid) && (rss_l[i-1] + rss_r[n-1-i]< rss)){
+      
+      // print info for the purpose of debugging here
+      // Rprintf("%i  %f %f %f %f\n", i , df_l_inflection[i-1], slope_mid, df_r_inflection[n-1-i], rss_l[i-1] + rss_r[n-1-i]);
+      if ((df_r_inflection[n-1-i] <= slope_mid) && (rss_l[i-1] + rss_r[n-1-i]< rss)){
         inflex_index = i;
         rss = rss_l[i-1] + rss_r[n-1-i];
         inflex = x[inflex_index];

@@ -2,7 +2,7 @@
 \alias{sshapedreg}
 \title{Estimation of an S-shaped function}
 \description{
-This function computes the the least squares S-shaped regression estimator and its corresponding inflection point by a sequential mixed primal-dual bases algorithm.
+This function computes the least squares S-shaped regression estimator and its corresponding inflection point by a sequential mixed primal-dual bases algorithm.
 }
 \usage{
 sshapedreg(x,y)

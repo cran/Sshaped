@@ -2,7 +2,7 @@
 \alias{cvxreg}
 \title{Estimation of an increasing and convex function}
 \description{
-This function computes the the least squares inceasing and convex regression estimator by a sequential mixed primal-dual bases algorithm.
+This function computes the least squares increasing and convex regression estimator by a sequential mixed primal-dual bases algorithm.
 }
 \usage{
 cvxreg(x,y)

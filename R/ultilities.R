@@ -1,9 +1,9 @@
 plot.sshaped <- function(x, ...){
     #   some initial checkings
-    if(class(x)!= "sshaped") stop("Please supply an sshaped object.")
+    if(!("sshaped" %in% class(x))) stop("Please supply an sshaped object.")
     
     if(x$shape=="sshaped") {shape <-"S-shaped fit"} else {shape <- "increasing convex fit"}
-    plot(x$x,x$y,xlab="x",ylab="y",main=shape)
+    plot(x$x,x$y,xlab="x",ylab="y", pch = 4, cex = 0.5, type = "p", main=shape)
     xorder = order(x$x)
     lines (x$x[xorder], x$fitted[xorder], ,lwd=3)
     if(x$shape=="sshaped") lines(c(x$inflection,x$inflection),c(min(x$y),max(x$y)),col="BLUE")
@@ -12,7 +12,7 @@ plot.sshaped <- function(x, ...){
 
 predict.sshaped <- function(object, xnew, ...){
     #   some initial checkings
-    if(class(object)!= "sshaped") stop("Please supply an sshaped object.")
+    if(!("sshaped" %in% class(object))) stop("Please supply an sshaped object.")
     if((!is.vector(xnew))||(!is.numeric(xnew)))
         stop("Please check the type of the new preditor - need to be numeric vectors")
     if (missing(xnew)) return(object$fitted) 
